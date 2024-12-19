@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {createProduct} from '../services/api';
+import { TextField, Button, Typography, Paper, Box } from '@mui/material';
 
 function AddProduct() {
     const [name, setName] = useState('');
@@ -49,67 +50,91 @@ function AddProduct() {
 
 
     return (
-        <div>
-            <h1>Aggiungi un Prodotto</h1>
-            {error && <p style={{color: 'red'}}>{error}</p>}
-            {success && <p style={{color: 'green'}}>{success}</p>}
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Nome"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Descrizione"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Categoria"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    required
-                />
-                <input
-                    type="number"
-                    placeholder="Prezzo"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="SKU"
-                    value={sku}
-                    onChange={(e) => setSku(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Taglia"
-                    value={size}
-                    onChange={(e) => setSize(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Colore"
-                    value={color}
-                    onChange={(e) => setColor(e.target.value)}
-                    required
-                />
-                <input
-                    type="file"
-                    onChange={(e) => setImage(e.target.files[0])}
-                />
-                <button type="submit">Aggiungi Prodotto</button>
-            </form>
-        </div>
+        <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="100vh"
+            bgcolor="#f5f5f5"
+        >
+            <Paper elevation={3} style={{ padding: '20px', maxWidth: '600px', width: '100%' }}>
+                <Typography variant="h4" align="center" gutterBottom>
+                    Aggiungi un Prodotto
+                </Typography>
+                {error && <Typography color="error" align="center">{error}</Typography>}
+                {success && <Typography color="primary" align="center">{success}</Typography>}
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+                    <TextField
+                        label="Nome"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        margin="normal"
+                        required
+                    />
+                    <TextField
+                        label="Descrizione"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        margin="normal"
+                        multiline
+                    />
+                    <TextField
+                        label="Categoria"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        margin="normal"
+                        required
+                    />
+                    <TextField
+                        label="Prezzo"
+                        type="number"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        margin="normal"
+                        required
+                    />
+                    <TextField
+                        label="SKU"
+                        value={sku}
+                        onChange={(e) => setSku(e.target.value)}
+                        margin="normal"
+                        required
+                    />
+                    <TextField
+                        label="Taglia"
+                        value={size}
+                        onChange={(e) => setSize(e.target.value)}
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Colore"
+                        value={color}
+                        onChange={(e) => setColor(e.target.value)}
+                        margin="normal"
+                    />
+                    <Button
+                        variant="contained"
+                        component="label"
+                        style={{ marginTop: '20px' }}
+                    >
+                        Carica Immagine
+                        <input
+                            type="file"
+                            hidden
+                            onChange={(e) => setImage(e.target.files[0])}
+                        />
+                    </Button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        style={{ marginTop: '20px' }}
+                    >
+                        Aggiungi Prodotto
+                    </Button>
+                </form>
+            </Paper>
+        </Box>
     );
 }
 

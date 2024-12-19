@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getProductById, updateProduct } from '../services/api';
+import React, {useState, useEffect} from 'react';
+import {useParams, useNavigate} from 'react-router-dom';
+import {getProductById, updateProduct} from '../services/api';
+import {TextField, Button, Typography, Paper, Box} from '@mui/material';
 
 function EditProduct() {
-    const { id } = useParams(); // Ottiene l'ID del prodotto dalla rotta
+    const {id} = useParams(); // Ottiene l'ID del prodotto dalla rotta
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -14,6 +15,7 @@ function EditProduct() {
     const [color, setColor] = useState('');
     const [image, setImage] = useState(null);
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     // Carica i dettagli del prodotto al montaggio
     useEffect(() => {
@@ -29,6 +31,7 @@ function EditProduct() {
                 setColor(product.color);
             } catch (err) {
                 setError('Errore nel caricamento del prodotto.');
+                setSuccess('');
             }
         };
         fetchProduct();
@@ -53,71 +56,101 @@ function EditProduct() {
         console.log('URL inviato:', `/products/${id}`);
 
         try {
-            await updateProduct(id, formData); // Invio al backend
-            navigate('/'); // Reindirizza alla lista dei prodotti
+            await updateProduct(id, formData);
+            setSuccess('Prodotto modificato con successo!');
+            setError('');// Invio al backend
         } catch (err) {
-            setError('Errore nell\'aggiornamento del prodotto.');
+            setError('Errore nella modifica del prodotto.');
+            setSuccess('');
         }
     };
 
-
     return (
-        <div>
-            <h1>Modifica Prodotto</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Nome"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Descrizione"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-                <input
-                    type="number"
-                    placeholder="Prezzo"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Categoria"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="SKU"
-                    value={sku}
-                    onChange={(e) => setSku(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Taglia"
-                    value={size}
-                    onChange={(e) => setSize(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Colore"
-                    value={color}
-                    onChange={(e) => setColor(e.target.value)}
-                />
-                <input
-                    type="file"
-                    onChange={(e) => setImage(e.target.files[0])}
-                />
-                <button type="submit">Aggiorna Prodotto</button>
-            </form>
-        </div>
+        <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            height="100vh"
+            bgcolor="#f5f5f5"
+        >
+            <Paper elevation={3} style={{padding: '20px', maxWidth: '600px', width: '100%'}}>
+                <Typography variant="h4" align="center" gutterBottom>
+                    Modifica Prodotto
+                </Typography>
+                {error && <Typography color="error" align="center">{error}</Typography>}
+                {success && <Typography color="primary" align="center">{success}</Typography>}
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
+                    <TextField
+                        label="Nome"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        margin="normal"
+                        required
+                    />
+                    <TextField
+                        label="Descrizione"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        margin="normal"
+                        multiline
+                    />
+                    <TextField
+                        label="Categoria"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        margin="normal"
+                        required
+                    />
+                    <TextField
+                        label="Prezzo"
+                        type="number"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        margin="normal"
+                        required
+                    />
+                    <TextField
+                        label="SKU"
+                        value={sku}
+                        onChange={(e) => setSku(e.target.value)}
+                        margin="normal"
+                        required
+                    />
+                    <TextField
+                        label="Taglia"
+                        value={size}
+                        onChange={(e) => setSize(e.target.value)}
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Colore"
+                        value={color}
+                        onChange={(e) => setColor(e.target.value)}
+                        margin="normal"
+                    />
+                    <Button
+                        variant="contained"
+                        component="label"
+                        style={{marginTop: '20px'}}
+                    >
+                        Carica Immagine
+                        <input
+                            type="file"
+                            hidden
+                            onChange={(e) => setImage(e.target.files[0])}
+                        />
+                    </Button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        style={{marginTop: '20px'}}
+                    >
+                        Modifica Prodotto
+                    </Button>
+                </form>
+            </Paper>
+        </Box>
     );
 }
 

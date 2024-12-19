@@ -80,8 +80,17 @@ class ProductController extends Controller
     // Eliminare un prodotto
     public function destroy(Product $product)
     {
+
+        // Verifica se esiste un'immagine associata al prodotto
+        if ($product->image_url) {
+            $filePath = storage_path('app/public/' . $product->image_url);
+            if (file_exists($filePath)) {
+                unlink($filePath); // Elimina il file dal filesystem
+            }
+        }
+
         $product->delete();
-        return response(null, 204);
+        return response()->json(['message' => 'Prodotto eliminato con successo'], 200);
     }
 }
 
