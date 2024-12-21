@@ -1,10 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { getProducts, deleteProduct } from '../services/api';
-import { useNavigate } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {getProducts, deleteProduct} from '../services/api';
+import {useNavigate} from 'react-router-dom';
 import {
-    Grid, Card, CardContent, CardMedia, Typography, Button, Stack, Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
+    Grid,
+    Card,
+    CardContent,
+    CardMedia,
+    Typography,
+    Button,
+    Stack,
+    Box,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle
 } from '@mui/material';
-import { motion } from 'framer-motion';
+import {motion} from 'framer-motion';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -51,7 +63,7 @@ function ProductList() {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div style={{padding: '20px'}}>
             <Typography variant="h4" gutterBottom>
                 Lista Prodotti
             </Typography>
@@ -63,9 +75,9 @@ function ProductList() {
             <Button
                 variant="contained"
                 color="primary"
-                startIcon={<AddIcon />}
+                startIcon={<AddIcon/>}
                 onClick={() => navigate('/add-product')}
-                style={{ marginBottom: '20px' }}
+                style={{marginBottom: '20px'}}
             >
                 Aggiungi Nuovo Prodotto
             </Button>
@@ -73,9 +85,9 @@ function ProductList() {
                 {products.map((product) => (
                     <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5 }}
+                            initial={{opacity: 0, scale: 0.8}}
+                            animate={{opacity: 1, scale: 1}}
+                            transition={{duration: 0.5}}
                         >
                             <Card>
                                 <CardMedia
@@ -86,16 +98,15 @@ function ProductList() {
                                 />
                                 <CardContent>
                                     <Box display="flex" alignItems="center" justifyContent="space-between">
-                                        <Typography variant="h6">
-                                            {product.name + " " + product.description}
-                                        </Typography>
+                                        <Typography variant="h6">{product.name}</Typography>
                                         <Typography variant="h6">{product.size}</Typography>
                                     </Box>
+                                    <Typography variant="h6">{product.description}</Typography>
                                     <Typography color="text.secondary">{product.color}</Typography>
                                     <Stack direction="row" spacing={2} marginTop={2}>
                                         <Button
                                             variant="outlined"
-                                            startIcon={<EditIcon />}
+                                            startIcon={<EditIcon/>}
                                             onClick={() => navigate(`/edit-product/${product.id}`)}
                                         >
                                             Modifica
@@ -103,7 +114,7 @@ function ProductList() {
                                         <Button
                                             variant="contained"
                                             color="error"
-                                            startIcon={<DeleteIcon />}
+                                            startIcon={<DeleteIcon/>}
                                             onClick={() => openModal(product)} // Apri il modal
                                         >
                                             Elimina
